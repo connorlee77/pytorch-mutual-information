@@ -1,5 +1,5 @@
 # pytorch-mutual-information
-### Batch mutual information and histogram2d in Pytorch
+### Batch computation of mutual information and histogram2d in Pytorch
 
 This implementation uses [kernel density estimation](https://en.wikipedia.org/wiki/Multivariate_kernel_density_estimation) with a gaussian kernel. We use a diagonal bandwidth matrix for the multivariate case, which allows us to decompose the multivariate kernel as the product of each univariate kernel. From wikipedia:
 
