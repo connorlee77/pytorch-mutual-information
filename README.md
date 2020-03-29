@@ -2,10 +2,13 @@
 ### Batch mutual information and histogram2d in Pytorch
 
 This implementation uses [kernel density estimation](https://en.wikipedia.org/wiki/Multivariate_kernel_density_estimation) with a gaussian kernel. We use a diagonal bandwidth matrix for the multivariate case, which allows us to decompose the multivariate kernel as the product of each univariate kernel. From wikipedia:
+
 <center>
 <a href="https://www.codecogs.com/eqnedit.php?latex=\begin{align*}&space;K_\mathbf{H}(\mathbf{x})&={(2&space;\pi)^{-d/2}}&space;\mathbf{|H|}^{-1/2}&space;e^{&space;-\frac{1}{2}\mathbf{x^T}\mathbf{H^{-1}}\mathbf{x}&space;}&space;\\&space;&={(2&space;\pi)^{-d/2}}&space;\mathbf{|H|}^{-1/2}&space;e^{-\frac{1}{2}(\frac{x_1^2}{h_1}&space;&plus;&space;\frac{x_2^2}{h_2}))}&space;\\&space;&={(2&space;\pi)^{-d/2}}&space;\mathbf{|H|}^{-1/2}&space;e^{-\frac{x_1^2}{2h_1}}e^{-\frac{x_2^2}{2h_2}}&space;\end{align*}" target="_blank"><img src="https://latex.codecogs.com/svg.latex?\begin{align*}&space;K_\mathbf{H}(\mathbf{x})&={(2&space;\pi)^{-d/2}}&space;\mathbf{|H|}^{-1/2}&space;e^{&space;-\frac{1}{2}\mathbf{x^T}\mathbf{H^{-1}}\mathbf{x}&space;}&space;\\&space;&={(2&space;\pi)^{-d/2}}&space;\mathbf{|H|}^{-1/2}&space;e^{-\frac{1}{2}(\frac{x_1^2}{h_1}&space;&plus;&space;\frac{x_2^2}{h_2}))}&space;\\&space;&={(2&space;\pi)^{-d/2}}&space;\mathbf{|H|}^{-1/2}&space;e^{-\frac{x_1^2}{2h_1}}e^{-\frac{x_2^2}{2h_2}}&space;\end{align*}" title="\begin{align*} K_\mathbf{H}(\mathbf{x})&={(2 \pi)^{-d/2}} \mathbf{|H|}^{-1/2} e^{ -\frac{1}{2}\mathbf{x^T}\mathbf{H^{-1}}\mathbf{x} } \\ &={(2 \pi)^{-d/2}} \mathbf{|H|}^{-1/2} e^{-\frac{1}{2}(\frac{x_1^2}{h_1} + \frac{x_2^2}{h_2}))} \\ &={(2 \pi)^{-d/2}} \mathbf{|H|}^{-1/2} e^{-\frac{x_1^2}{2h_1}}e^{-\frac{x_2^2}{2h_2}} \end{align*}" /></a>
 </center>
+
 where the bandwith matrix
+
 <center>
 <a href="https://www.codecogs.com/eqnedit.php?latex=\mathbf{H}&space;=&space;\begin{pmatrix}&space;h_1&space;&&space;0\\&space;0&space;&&space;h_2&space;\end{pmatrix}" target="_blank"><img src="https://latex.codecogs.com/svg.latex?\mathbf{H}&space;=&space;\begin{pmatrix}&space;h_1&space;&&space;0\\&space;0&space;&&space;h_2&space;\end{pmatrix}" title="\mathbf{H} = \begin{pmatrix} h_1 & 0\\ 0 & h_2 \end{pmatrix}" /></a>
 </center>
