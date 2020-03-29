@@ -50,10 +50,17 @@ score = MI(input1, input2)
 ## Results
 ---
 ### Histogram 
-<img src="grad.jpg" width="38%"/>
-<img src="hist.png" width="51%"/>
+
+
+
+<p align="middle">
+    <img src="grad.jpg" width="38%"/>
+    <img src="hist.png" width="51%"/>
+</p>
 
 ### Joint Histogram
-<img src="grad.jpg" width="27%"/>
-<img src="grad1.jpg" width="27%"/>
-<img src="jointhist.png" width="36%"/>
+<p align="middle">
+    <img src="grad.jpg" width="100"/>
+    <img src="grad1.jpg" width="100"/>
+    <img src="jointhist.png" width="100"/>
+</p>
