@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 from PIL import Image
 from torchvision import transforms
 
+EPSILON = 1e-10
 
 def marginalPdf(values, bins, sigma):
 
@@ -16,7 +17,7 @@ def marginalPdf(values, bins, sigma):
 	kernel_values = torch.exp(-0.5*(residuals / sigma).pow(2))
 	
 	pdf = torch.mean(kernel_values, dim=1)
-	normalization = torch.sum(pdf, dim=1).unsqueeze(1) + 1e-8
+	normalization = torch.sum(pdf, dim=1).unsqueeze(1) + EPSILON
 	pdf = pdf / normalization
 
 	return pdf, kernel_values
@@ -25,7 +26,7 @@ def marginalPdf(values, bins, sigma):
 def jointPdf(kernel_values1, kernel_values2):
 
 	joint_kernel_values = torch.matmul(kernel_values1.transpose(1, 2), kernel_values2) 
-	normalization = torch.sum(joint_kernel_values, dim=(1,2)).view(-1, 1, 1) + 1e-8
+	normalization = torch.sum(joint_kernel_values, dim=(1,2)).view(-1, 1, 1) + EPSILON
 	pdf = joint_kernel_values / normalization
 
 	return pdf

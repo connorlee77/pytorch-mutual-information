@@ -15,14 +15,15 @@ from sklearn.metrics import normalized_mutual_info_score
 
 class MutualInformation(nn.Module):
 
-	def __init__(self, sigma=0.4, num_bins=256, normalize=True, device='cpu'):
+	def __init__(self, sigma=0.4, num_bins=256, normalize=True):
 		super(MutualInformation, self).__init__()
 
 		self.sigma = 2*sigma**2
 		self.num_bins = num_bins
 		self.normalize = normalize
+		self.epsilon = 1e-10
 
-		self.bins = torch.linspace(0, 255, num_bins, device=device).float()
+		self.bins = nn.Parameter(torch.linspace(0, 255, num_bins, device=device).float(), requires_grad=False)
 
 
 	def marginalPdf(self, values):
@@ -31,7 +32,7 @@ class MutualInformation(nn.Module):
 		kernel_values = torch.exp(-0.5*(residuals / self.sigma).pow(2))
 		
 		pdf = torch.mean(kernel_values, dim=1)
-		normalization = torch.sum(pdf, dim=1).unsqueeze(1) + 1e-8
+		normalization = torch.sum(pdf, dim=1).unsqueeze(1) + self.epsilon
 		pdf = pdf / normalization
 		
 		return pdf, kernel_values
@@ -40,7 +41,7 @@ class MutualInformation(nn.Module):
 	def jointPdf(self, kernel_values1, kernel_values2):
 
 		joint_kernel_values = torch.matmul(kernel_values1.transpose(1, 2), kernel_values2) 
-		normalization = torch.sum(joint_kernel_values, dim=(1,2)).view(-1, 1, 1) + 1e-8
+		normalization = torch.sum(joint_kernel_values, dim=(1,2)).view(-1, 1, 1) + self.epsilon
 		pdf = joint_kernel_values / normalization
 
 		return pdf
@@ -51,6 +52,7 @@ class MutualInformation(nn.Module):
 			input1: B, C, H, W
 			input2: B, C, H, W
 
+			return: scalar
 		'''
 
 		# Torch tensors for images between (0, 1)
@@ -67,9 +69,9 @@ class MutualInformation(nn.Module):
 		pdf_x2, kernel_values2 = self.marginalPdf(x2)
 		pdf_x1x2 = self.jointPdf(kernel_values1, kernel_values2)
 
-		H_x1 = -torch.sum(pdf_x1*torch.log2(pdf_x1 + 1e-10), dim=1)
-		H_x2 = -torch.sum(pdf_x2*torch.log2(pdf_x2 + 1e-10), dim=1)
-		H_x1x2 = -torch.sum(pdf_x1x2*torch.log2(pdf_x1x2 + 1e-10), dim=(1,2))
+		H_x1 = -torch.sum(pdf_x1*torch.log2(pdf_x1 + self.epsilon), dim=1)
+		H_x2 = -torch.sum(pdf_x2*torch.log2(pdf_x2 + self.epsilon), dim=1)
+		H_x1x2 = -torch.sum(pdf_x1x2*torch.log2(pdf_x1x2 + self.epsilon), dim=(1,2))
 
 		mutual_information = H_x1 + H_x2 - H_x1x2
 		
@@ -80,6 +82,12 @@ class MutualInformation(nn.Module):
 
 
 	def forward(self, input1, input2):
+		'''
+			input1: B, C, H, W
+			input2: B, C, H, W
+
+			return: scalar
+		'''
 		return self.getMutualInformation(input1, input2)
 
 
@@ -105,7 +113,7 @@ if __name__ == '__main__':
 	input1 = torch.cat([img1, img2])
 	input2 = torch.cat([img2, img2])
 
-	MI = MutualInformation(device='cuda:0', num_bins=256, sigma=0.4, normalize=True)
+	MI = MutualInformation(num_bins=256, sigma=0.4, normalize=True).to(device)
 	mi_test = MI(input1, input2)
 
 	mi_test_1 = mi_test[0].cpu().numpy()
