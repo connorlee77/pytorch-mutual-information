@@ -10,7 +10,7 @@ This implementation uses [kernel density estimation](https://en.wikipedia.org/wi
 where the bandwith matrix
 
 <center>
-<a href="https://www.codecogs.com/eqnedit.php?latex=\mathbf{H}&space;=&space;\begin{pmatrix}&space;h_1&space;&&space;0\\&space;0&space;&&space;h_2&space;\end{pmatrix}" target="_blank"><img src="https://latex.codecogs.com/svg.latex?\mathbf{H}&space;=&space;\begin{pmatrix}&space;h_1&space;&&space;0\\&space;0&space;&&space;h_2&space;\end{pmatrix}" title="\mathbf{H} = \begin{pmatrix} h_1 & 0\\ 0 & h_2 \end{pmatrix}" /></a>
+<a href="https://www.codecogs.com/eqnedit.php?latex=\mathbf{H}&space;=&space;\begin{pmatrix}&space;h_1&space;&&space;0\\&space;0&space;&&space;h_2&space;\end{pmatrix}" target="_blank" align='center'><img src="https://latex.codecogs.com/svg.latex?\mathbf{H}&space;=&space;\begin{pmatrix}&space;h_1&space;&&space;0\\&space;0&space;&&space;h_2&space;\end{pmatrix}" title="\mathbf{H} = \begin{pmatrix} h_1 & 0\\ 0 & h_2 \end{pmatrix}" /></a>
 </center>
 
 ## Example usage
