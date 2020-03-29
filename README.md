@@ -60,7 +60,7 @@ score = MI(input1, input2)
 
 ### Joint Histogram
 <p align="middle">
-    <img src="grad.jpg" width="100"/>
-    <img src="grad1.jpg" width="100"/>
-    <img src="jointhist.png" width="100"/>
+    <img src="grad.jpg" width="27%"/>
+    <img src="grad1.jpg" width="27%"/>
+    <img src="jointhist.png" width="35%"/>
 </p>
