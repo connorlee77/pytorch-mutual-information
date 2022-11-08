@@ -1,3 +1,5 @@
+Update: Integrated into Kornia
+
 # pytorch-mutual-information
 ### Batch computation of mutual information and histogram2d in Pytorch
 
