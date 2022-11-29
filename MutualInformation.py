@@ -15,10 +15,10 @@ from sklearn.metrics import normalized_mutual_info_score
 
 class MutualInformation(nn.Module):
 
-	def __init__(self, sigma=0.4, num_bins=256, normalize=True):
+	def __init__(self, sigma=0.1, num_bins=256, normalize=True):
 		super(MutualInformation, self).__init__()
 
-		self.sigma = 2*sigma**2
+		self.sigma = sigma
 		self.num_bins = num_bins
 		self.normalize = normalize
 		self.epsilon = 1e-10
@@ -113,7 +113,7 @@ if __name__ == '__main__':
 	input1 = torch.cat([img1, img2])
 	input2 = torch.cat([img2, img2])
 
-	MI = MutualInformation(num_bins=256, sigma=0.4, normalize=True).to(device)
+	MI = MutualInformation(num_bins=256, sigma=0.1, normalize=True).to(device)
 	mi_test = MI(input1, input2)
 
 	mi_test_1 = mi_test[0].cpu().numpy()
