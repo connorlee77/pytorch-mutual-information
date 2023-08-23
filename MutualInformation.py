@@ -23,7 +23,7 @@ class MutualInformation(nn.Module):
 		self.normalize = normalize
 		self.epsilon = 1e-10
 
-		self.bins = nn.Parameter(torch.linspace(0, 255, num_bins, device=device).float(), requires_grad=False)
+		self.bins = nn.Parameter(torch.linspace(0, 255, num_bins).float(), requires_grad=False)
 
 
 	def marginalPdf(self, values):
